@@ -24,10 +24,25 @@ export const getContacts = async (req, res) => {
 		res.status(500).send(error.message);
 	}
 };
+
 export const getContactWithId = async (req, res) => {
 	try {
 		const contact = await Contact.findById(req.params.contactId);
 		res.json(contact);
+	} catch (error) {
+		console.warn(error);
+		res.status(500).send(error.message);
+	}
+};
+
+export const updateContact = async (req, res) => {
+	try {
+		const updatedContact = await Contact.findOneAndUpdate(
+			{ _id: req.params.contactId },
+			req.body,
+			{ new: true }
+		);
+		res.json(updatedContact);
 	} catch (error) {
 		console.warn(error);
 		res.status(500).send(error.message);
